@@ -49,6 +49,8 @@
   "module": "dist/index.esm.js",
   "dependencies": {},
   "devDependencies": {
+    "@react-native-firebase/app": "^10.6.3",
+    "@react-native-firebase/firestore": "^10.6.3",
     "@types/react": "^17.0.0",
     "firebase": "^8.0.0",
     "path": "^0.12.7",

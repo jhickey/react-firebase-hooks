@@ -13,3 +13,8 @@ npm-debug.log
 # Testing output
 .nyc_output
 coverage
+
+# Jetbrains
+.idea
+
+dist

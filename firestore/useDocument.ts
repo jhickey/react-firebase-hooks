@@ -1,4 +1,4 @@
-import firebase from 'firebase/app';
+import {FirebaseFirestoreTypes} from '@react-native-firebase/firestore';
 import { useEffect, useMemo } from 'react';
 import { snapshotToData } from './helpers';
 import {
@@ -12,50 +12,50 @@ import {
 } from './types';
 import { useIsEqualRef, useLoadingValue } from '../util';
 
-export const useDocument = <T = firebase.firestore.DocumentData>(
-  docRef?: firebase.firestore.DocumentReference<T> | null,
+export const useDocument = <T = FirebaseFirestoreTypes.DocumentData>(
+  docRef?: FirebaseFirestoreTypes.DocumentReference<T> | null,
   options?: Options
 ): DocumentHook<T> => {
   return useDocumentInternal(true, docRef, options);
 };
 
-export const useDocumentOnce = <T = firebase.firestore.DocumentData>(
-  docRef?: firebase.firestore.DocumentReference<T> | null,
+export const useDocumentOnce = <T = FirebaseFirestoreTypes.DocumentData>(
+  docRef?: FirebaseFirestoreTypes.DocumentReference<T> | null,
   options?: OnceOptions
 ): DocumentHook<T> => {
   return useDocumentInternal(false, docRef, options);
 };
 
 export const useDocumentData = <
-  T = firebase.firestore.DocumentData,
+  T = FirebaseFirestoreTypes.DocumentData,
   IDField extends string = '',
   RefField extends string = ''
 >(
-  docRef?: firebase.firestore.DocumentReference<T> | null,
+  docRef?: FirebaseFirestoreTypes.DocumentReference<T> | null,
   options?: DataOptions
 ): DocumentDataHook<T, IDField, RefField> => {
   return useDocumentDataInternal(true, docRef, options);
 };
 
 export const useDocumentDataOnce = <
-  T = firebase.firestore.DocumentData,
+  T = FirebaseFirestoreTypes.DocumentData,
   IDField extends string = '',
   RefField extends string = ''
 >(
-  docRef?: firebase.firestore.DocumentReference<T> | null,
+  docRef?: FirebaseFirestoreTypes.DocumentReference<T> | null,
   options?: OnceDataOptions
 ): DocumentDataHook<T, IDField, RefField> => {
   return useDocumentDataInternal(false, docRef, options);
 };
 
-const useDocumentInternal = <T = firebase.firestore.DocumentData>(
+const useDocumentInternal = <T = FirebaseFirestoreTypes.DocumentData>(
   listen: boolean,
-  docRef?: firebase.firestore.DocumentReference<T> | null,
+  docRef?: FirebaseFirestoreTypes.DocumentReference<T> | null,
   options?: Options & OnceOptions
 ): DocumentHook<T> => {
   const { error, loading, reset, setError, setValue, value } = useLoadingValue<
-    firebase.firestore.DocumentSnapshot,
-    firebase.FirebaseError
+    FirebaseFirestoreTypes.DocumentSnapshot,
+    Error
   >();
   const ref = useIsEqualRef(docRef, reset);
 
@@ -86,7 +86,7 @@ const useDocumentInternal = <T = firebase.firestore.DocumentData>(
   }, [ref.current]);
 
   const resArray: DocumentHook<T> = [
-    value as firebase.firestore.DocumentSnapshot<T>,
+    value as FirebaseFirestoreTypes.DocumentSnapshot<T>,
     loading,
     error,
   ];
@@ -94,17 +94,16 @@ const useDocumentInternal = <T = firebase.firestore.DocumentData>(
 };
 
 const useDocumentDataInternal = <
-  T = firebase.firestore.DocumentData,
+  T = FirebaseFirestoreTypes.DocumentData,
   IDField extends string = '',
   RefField extends string = ''
 >(
   listen: boolean,
-  docRef?: firebase.firestore.DocumentReference<T> | null,
+  docRef?: FirebaseFirestoreTypes.DocumentReference<T> | null,
   options?: DataOptions
 ): DocumentDataHook<T, IDField, RefField> => {
   const idField = options ? options.idField : undefined;
   const refField = options ? options.refField : undefined;
-  const snapshotOptions = options ? options.snapshotOptions : undefined;
   const [snapshot, loading, error] = useDocumentInternal<T>(
     listen,
     docRef,
@@ -113,7 +112,7 @@ const useDocumentDataInternal = <
   const value = useMemo(
     () =>
       (snapshot
-        ? snapshotToData(snapshot, snapshotOptions, idField, refField)
+        ? snapshotToData(snapshot, idField, refField)
         : undefined) as Data<T, IDField, RefField>,
     [snapshot, idField, refField]
   );

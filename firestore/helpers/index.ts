@@ -1,8 +1,7 @@
-import firebase from 'firebase/app';
+import {FirebaseFirestoreTypes} from '@react-native-firebase/firestore';
 
 export const snapshotToData = (
-  snapshot: firebase.firestore.DocumentSnapshot,
-  snapshotOptions?: firebase.firestore.SnapshotOptions,
+  snapshot: FirebaseFirestoreTypes.DocumentSnapshot,
   idField?: string,
   refField?: string
 ) => {
@@ -11,7 +10,7 @@ export const snapshotToData = (
   }
 
   return {
-    ...snapshot.data(snapshotOptions),
+    ...snapshot.data(),
     ...(idField ? { [idField]: snapshot.id } : null),
     ...(refField ? { [refField]: snapshot.ref } : null),
   };
