@@ -1,0 +1,6 @@
+import { FirebaseFirestoreTypes } from '@react-native-firebase/firestore';
+import { Data, DataOptions, OnceOptions, OnceDataOptions, Options } from './types';
+export declare const useCollection: <T = FirebaseFirestoreTypes.DocumentData>(query?: FirebaseFirestoreTypes.Query<T> | null | undefined, options?: Options | undefined) => [FirebaseFirestoreTypes.QuerySnapshot<T> | undefined, boolean, Error | undefined];
+export declare const useCollectionOnce: <T = FirebaseFirestoreTypes.DocumentData>(query?: FirebaseFirestoreTypes.Query<T> | null | undefined, options?: OnceOptions | undefined) => [FirebaseFirestoreTypes.QuerySnapshot<T> | undefined, boolean, Error | undefined];
+export declare const useCollectionData: <T = FirebaseFirestoreTypes.DocumentData, IDField extends string = "", RefField extends string = "">(query?: FirebaseFirestoreTypes.Query<T> | null | undefined, options?: DataOptions | undefined) => [Data<T, IDField, RefField>[] | undefined, boolean, Error | undefined];
+export declare const useCollectionDataOnce: <T = FirebaseFirestoreTypes.DocumentData, IDField extends string = "", RefField extends string = "">(query?: FirebaseFirestoreTypes.Query<T> | null | undefined, options?: OnceDataOptions | undefined) => [Data<T, IDField, RefField>[] | undefined, boolean, Error | undefined];
